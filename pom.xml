@@ -117,9 +117,12 @@
           <effort>Max</effort>
           <threshold>Low</threshold>
           <xmlOutput>true</xmlOutput>
+          <xmlOutputDirectory>target/site</xmlOutputDirectory>
         </configuration>
         <executions>
           <execution>
+            <id>compile</id>
+            <phase>compile</phase>
             <goals>
               <goal>check</goal>
             </goals>
