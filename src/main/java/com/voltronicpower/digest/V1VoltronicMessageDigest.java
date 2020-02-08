@@ -73,7 +73,6 @@ public class V1VoltronicMessageDigest extends MessageDigest {
     }
   }
 
-
   protected void engineReset() {
     this.crc = 0;
   }

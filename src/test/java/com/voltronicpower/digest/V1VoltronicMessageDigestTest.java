@@ -1,31 +1,20 @@
 package com.voltronicpower.digest;
 
-import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static com.voltronicpower.ByteUtil.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class V1VoltronicMessageDigestTest {
 
-  private static final Collection<Byte> RESERVED_BYTES;
-
-  static {
-    final Set<Byte> b = new HashSet<Byte>();
-    b.add((byte) 0x0A);
-    b.add((byte) 0x0D);
-    b.add((byte) 0x28);
-    RESERVED_BYTES = Collections.unmodifiableSet(b);
-  }
+  private static final Collection<Byte> RESERVED_BYTES = Collections.unmodifiableSet(new HashSet<Byte>(list(
+      0x0A, 0x0D, 0x28)));
 
   private MessageDigest md;
 
@@ -84,22 +73,6 @@ public class V1VoltronicMessageDigestTest {
     md.reset();
     md.update(bytes("QPI"));
     assertArrayEquals(bytes(0xBE, 0xAC), md.digest());
-  }
-
-  private static byte[] bytes(int... array) {
-    final byte[] b = new byte[array.length];
-    for (int index = 0; index < b.length; ++index) {
-      b[index] = (byte) array[index];
-    }
-    return b;
-  }
-
-  private static byte[] bytes(final String s) {
-    try {
-      return s.getBytes("UTF-8");
-    } catch (final UnsupportedEncodingException e) {
-      throw new RuntimeException("UTF-8 not supported on current platform", e);
-    }
   }
 
 }
