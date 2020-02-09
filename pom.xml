@@ -21,8 +21,7 @@
   <scm>
     <url>https://github.com/jvandervyver/VoltronicLibJava</url>
     <connection>https://github.com/jvandervyver/VoltronicLibJava.git</connection>
-    <developerConnection>scm:git:git@github.com:jvandervyver/VoltronicLibJava.git
-    </developerConnection>
+    <developerConnection>scm:git:git@github.com:jvandervyver/VoltronicLibJava.git</developerConnection>
   </scm>
 
   <licenses>
@@ -53,6 +52,7 @@
       <version>[5.4.1, 6.0.0)</version>
       <scope>test</scope>
     </dependency>
+
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
@@ -71,6 +71,7 @@
           <source>1.5</source>
         </configuration>
       </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
@@ -80,6 +81,7 @@
           <forkCount>1</forkCount>
         </configuration>
       </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
@@ -108,6 +110,7 @@
           </execution>
         </executions>
       </plugin>
+
       <plugin>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-maven-plugin</artifactId>
@@ -120,8 +123,8 @@
         </configuration>
         <executions>
           <execution>
-            <id>compile</id>
-            <phase>compile</phase>
+            <id>spotbugs</id>
+            <phase>process-classes</phase>
             <goals>
               <goal>check</goal>
             </goals>
