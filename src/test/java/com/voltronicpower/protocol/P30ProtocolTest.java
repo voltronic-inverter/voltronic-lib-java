@@ -1,9 +1,9 @@
 package com.voltronicpower.protocol;
 
 import com.voltronicpower.IOTestDevice;
+import com.voltronicpower.MessageDigestSupplier;
 import com.voltronicpower.Protocol;
 import com.voltronicpower.TestMessageDigest;
-import com.voltronicpower.MessageDigestSupplier;
 import com.voltronicpower.exception.BufferOverflowException;
 import com.voltronicpower.exception.DigestMismatchException;
 import com.voltronicpower.exception.TimeoutException;
@@ -17,11 +17,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
-import static com.voltronicpower.ByteUtil.bytes;
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static com.voltronicpower.ByteUtil.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class P30ProtocolTest {
 
@@ -47,6 +44,12 @@ public class P30ProtocolTest {
 
     this.configurableProtocol.setMaximumBufferSize(32);
     this.configurableProtocol.setVerifyDigest(true);
+  }
+
+  @Test
+  @DisplayName("Default constructor works")
+  public void testDefaultConstructor() {
+    new P30Protocol();
   }
 
   @Test

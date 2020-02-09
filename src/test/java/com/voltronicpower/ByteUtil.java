@@ -1,6 +1,5 @@
 package com.voltronicpower;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -11,7 +10,7 @@ public class ByteUtil {
   }
 
   public static byte[] bytes(final byte b) {
-    return new byte[] { b };
+    return new byte[]{b};
   }
 
   public static byte[] bytes(final byte[]... arrays) {
@@ -39,7 +38,7 @@ public class ByteUtil {
 
   public static byte[] bytes(final String string) {
     final byte[] bytes = new byte[string.length()];
-    for(int index = 0; index < string.length(); ++index) {
+    for (int index = 0; index < string.length(); ++index) {
       final int codepoint = string.codePointAt(index);
       if (codepoint > 255) {
         throw new IllegalArgumentException("Only ASCII supported");
