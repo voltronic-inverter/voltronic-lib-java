@@ -1,6 +1,9 @@
 package com.voltronicpower.digest;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.security.MessageDigest;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -13,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class V1VoltronicMessageDigestTest {
 
+  private static final ByteOrder V1_BYTE_ORDER = ByteOrder.BIG_ENDIAN;
   private static final Collection<Byte> RESERVED_BYTES = Collections.unmodifiableSet(new HashSet<Byte>(list(
       0x0A, 0x0D, 0x28)));
 
@@ -30,17 +34,66 @@ public class V1VoltronicMessageDigestTest {
   }
 
   @Test
-  @DisplayName("Reserved bytes check matches known reserved bytes")
+  @DisplayName("Reserved bytes check matches known reserved bytes during spot check")
   public void reservedBytesDetectedCorrectly() {
-    final V1VoltronicMessageDigest md = new V1VoltronicMessageDigest();
+    assertFalse(new V1VoltronicMessageDigest().isReservedByte((byte) 0x22));
+    assertTrue(new V1VoltronicMessageDigest().isReservedByte((byte) 0x0A));
+    assertTrue(new V1VoltronicMessageDigest().isReservedByte((byte) 0x0D));
+    assertTrue(new V1VoltronicMessageDigest().isReservedByte((byte) 0x28));
+  }
 
+  @Test
+  @DisplayName("Reserved bytes check matches known reserved bytes during exhaustive test")
+  public void reservedBytesExhaustivelyDetectedCorrectly() {
     for (int count = 0; count <= 0xFF; ++count) {
       final byte b = (byte) count;
       if (RESERVED_BYTES.contains(b)) {
-        assertTrue(md.isReservedByte(b));
+        assertTrue(new V1VoltronicMessageDigest().isReservedByte(b));
       } else {
-        assertFalse(md.isReservedByte(b));
+        assertFalse(new V1VoltronicMessageDigest().isReservedByte(b));
       }
+    }
+  }
+
+  @Test
+  @DisplayName("Writes reserved bytes correctly during spot check")
+  public void writeReservedBytesCorrectlySpotTest() {
+    assertArrayEquals(bytes(0x34, 0x16), writeCrcBytes((char) 0x3416));
+
+    assertArrayEquals(bytes(0x0B, 0xBF), writeCrcBytes((char) 0x0ABF));
+    assertArrayEquals(bytes(0x18, 0x0B), writeCrcBytes((char) 0x180A));
+
+    assertArrayEquals(bytes(0x0E, 0x54), writeCrcBytes((char) 0x0D54));
+    assertArrayEquals(bytes(0x22, 0x0E), writeCrcBytes((char) 0x220D));
+
+    assertArrayEquals(bytes(0x29, 0x18), writeCrcBytes((char) 0x2818));
+    assertArrayEquals(bytes(0x34, 0x29), writeCrcBytes((char) 0x3428));
+  }
+
+  @Test
+  @DisplayName("Writes reserved bytes correctly during exhaustive test")
+  public void writeReservedBytesCorrectlyExhaustiveTest() {
+    final byte[] buffer = new byte[2];
+    final byte[] bytes = new byte[2];
+
+    final ByteBuffer byteBuffer = ByteBuffer.wrap(buffer);
+    byteBuffer.order(V1_BYTE_ORDER).position(0);
+
+    for (int crc = 0; crc <= Character.MAX_VALUE; ++crc) {
+      final char crcChar = (char) (crc & 0xFFFF);
+      Arrays.fill(buffer, (byte) 0);
+      Arrays.fill(bytes, (byte) 0);
+
+      byteBuffer.order(V1_BYTE_ORDER).putChar(crcChar).order(V1_BYTE_ORDER).position(0);
+      new V1VoltronicMessageDigest().writeCrcBytes(crcChar, bytes, 0);
+
+      for(int bufferIndex = 0; bufferIndex < buffer.length; ++bufferIndex) {
+        if (RESERVED_BYTES.contains(buffer[bufferIndex])) {
+          buffer[bufferIndex]++;
+        }
+      }
+
+      assertArrayEquals(buffer, bytes);
     }
   }
 
@@ -73,6 +126,13 @@ public class V1VoltronicMessageDigestTest {
     md.reset();
     md.update(bytes("QPI"));
     assertArrayEquals(bytes(0xBE, 0xAC), md.digest());
+  }
+
+  private byte[] writeCrcBytes(final char crc) {
+    final byte[] bytes = new byte[2];
+    Arrays.fill(bytes, (byte) 0);
+    new V1VoltronicMessageDigest().writeCrcBytes(crc, bytes, 0);
+    return bytes;
   }
 
 }

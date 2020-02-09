@@ -35,13 +35,7 @@ public class V1VoltronicMessageDigest extends MessageDigest {
 
   protected byte[] engineDigest() {
     final byte[] bytes = new byte[this.engineGetDigestLength()];
-
-    try {
-      this.engineDigest(bytes, 0, bytes.length);
-    } catch (final DigestException e) {
-      throw new RuntimeException(e);
-    }
-
+    this.writeCrcBytes(this.crc, bytes, 0);
     return bytes;
   }
 
@@ -56,21 +50,7 @@ public class V1VoltronicMessageDigest extends MessageDigest {
     } else if (buf.length - off < digestLength) {
       throw new DigestException("insufficient space in the output buffer to store the digest");
     } else {
-      final char crc = this.crc;
-
-      byte b0 = (byte) (crc >> 8);
-      if (this.isReservedByte(b0)) {
-        b0++;
-      }
-
-      byte b1 = (byte) crc;
-      if (this.isReservedByte(b1)) {
-        b1++;
-      }
-
-      buf[off] = b0;
-      buf[off + 1] = b1;
-
+      this.writeCrcBytes(this.crc, buf, off);
       return digestLength;
     }
   }
@@ -83,8 +63,23 @@ public class V1VoltronicMessageDigest extends MessageDigest {
     return 2;
   }
 
-  boolean isReservedByte(final byte b) {
+  protected boolean isReservedByte(final byte b) {
     return b == 0x0A || b == 0x0D || b == 0x28;
+  }
+
+  void writeCrcBytes(final char crc, final byte[] buf, final int off) {
+    byte b0 = (byte) (crc >> 8);
+    if (this.isReservedByte(b0)) {
+      b0++;
+    }
+
+    byte b1 = (byte) crc;
+    if (this.isReservedByte(b1)) {
+      b1++;
+    }
+
+    buf[off] = b0;
+    buf[off + 1] = b1;
   }
 
 }
