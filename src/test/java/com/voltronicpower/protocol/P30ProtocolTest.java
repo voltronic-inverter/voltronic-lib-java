@@ -48,8 +48,8 @@ public class P30ProtocolTest {
 
   @Test
   @DisplayName("Default constructor works")
-  public void testDefaultConstructor() {
-    new P30Protocol();
+  public void testDefaultConstructor() throws Exception {
+    new P30Protocol().write(device, "Hello");
   }
 
   @Test

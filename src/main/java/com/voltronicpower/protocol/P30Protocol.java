@@ -1,8 +1,8 @@
 package com.voltronicpower.protocol;
 
 import com.voltronicpower.Device;
-import com.voltronicpower.Protocol;
 import com.voltronicpower.MessageDigestSupplier;
+import com.voltronicpower.Protocol;
 import com.voltronicpower.digest.V1VoltronicMessageDigest;
 import com.voltronicpower.exception.BufferOverflowException;
 import com.voltronicpower.exception.DigestMismatchException;
@@ -58,10 +58,14 @@ public class P30Protocol implements Protocol {
       }
     } else if (overrideConstructor) {
       final MessageDigest md = messageDigestSupplier.get();
+      int digestLength;
       if (md == null) {
         throw new NullPointerException("messageDigestSupplier.get() is null");
-      } else if (md.getDigestLength() <= 0) {
+      } else if ((digestLength = md.getDigestLength()) <= 0) {
         throw new IllegalArgumentException("messageDigestSupplier.get().getDigestLength() <= 0");
+      } else if (md.digest().length != digestLength) {
+        throw new IllegalArgumentException(
+            "messageDigestSupplier.get().digest() != messageDigestSupplier.get().getDigestLength()");
       }
     }
 
@@ -156,14 +160,14 @@ public class P30Protocol implements Protocol {
   private byte[] readLoop(
       final Device device,
       final long timeout,
-      final TimeUnit timeoutTimeunit) throws IOException {
+      final TimeUnit timeoutTimeUnit) throws IOException {
 
     final ByteArrayOutputStream buffer = new ByteArrayOutputStream(
         Math.min(INITIAL_BUFFER_SIZE, this.maximumBufferSize));
 
     final byte[] bytes = new byte[READ_SIZE];
     final int bytesLength = bytes.length;
-    final long endNanoTime = System.nanoTime() + Math.max(0, timeoutTimeunit.toNanos(timeout));
+    final long endNanoTime = System.nanoTime() + Math.max(0, timeoutTimeUnit.toNanos(timeout));
 
     while (true) {
       final int bytesRead = device.read(bytes, 0, bytesLength);
@@ -181,7 +185,7 @@ public class P30Protocol implements Protocol {
       }
 
       if (System.nanoTime() > endNanoTime) {
-        throw new TimeoutException(timeout, timeoutTimeunit);
+        throw new TimeoutException(timeout, timeoutTimeUnit);
       }
 
       try {
@@ -201,6 +205,7 @@ public class P30Protocol implements Protocol {
       public final MessageDigest get() {
         return new V1VoltronicMessageDigest();
       }
+
     }
 
     Charset charset;

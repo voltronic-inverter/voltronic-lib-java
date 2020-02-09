@@ -56,18 +56,20 @@ public class V1VoltronicMessageDigest extends MessageDigest {
     } else if (buf.length - off < digestLength) {
       throw new DigestException("insufficient space in the output buffer to store the digest");
     } else {
-      char crc = this.crc;
+      final char crc = this.crc;
 
-      if (this.isReservedByte((byte) crc)) {
-        crc += 1;
+      byte b0 = (byte) (crc >> 8);
+      if (this.isReservedByte(b0)) {
+        b0++;
       }
 
-      if (this.isReservedByte((byte) (crc >> 8))) {
-        crc += 256;
+      byte b1 = (byte) crc;
+      if (this.isReservedByte(b1)) {
+        b1++;
       }
 
-      buf[off] = (byte) ((crc >> 8) & 0xFF);
-      buf[off + 1] = (byte) (crc & 0xFF);
+      buf[off] = b0;
+      buf[off + 1] = b1;
 
       return digestLength;
     }
