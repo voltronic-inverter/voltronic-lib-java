@@ -1,4 +1,4 @@
-package com.voltronicpower.protocol;
+package com.voltronicpower.exception;
 
 import java.io.IOException;
 

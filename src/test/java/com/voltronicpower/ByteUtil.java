@@ -49,20 +49,6 @@ public class ByteUtil {
     return bytes;
   }
 
-  public static byte[] copy(final byte[] bytes, final int off, final int len) {
-    final byte[] copy = new byte[len];
-    System.arraycopy(bytes, off, copy, 0, len);
-    return copy;
-  }
-
-  public static List<Byte> list(final byte[] array) {
-    final List<Byte> list = new ArrayList<Byte>(array.length);
-    for (byte b : array) {
-      list.add(b);
-    }
-    return list;
-  }
-
   public static List<Byte> list(final int... array) {
     final List<Byte> list = new ArrayList<Byte>(array.length);
     for (int b : array) {

@@ -6,7 +6,7 @@ import java.util.concurrent.TimeoutException;
 
 public interface Protocol {
 
-  String read(Device device, long timeout, TimeUnit timeoutTimeUnit) throws IOException, TimeoutException;
+  String read(Device device, long timeout, TimeUnit timeoutTimeUnit) throws IOException;
 
   void write(Device device, CharSequence input) throws IOException;
 
