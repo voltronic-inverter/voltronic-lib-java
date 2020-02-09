@@ -69,7 +69,7 @@ public class V1VoltronicMessageDigest extends MessageDigest {
     return b == 0x0A || b == 0x0D || b == 0x28;
   }
 
-  void writeCrcBytes(final char crc, final byte[] buf, final int off) {
+  void writeCrcBytes(final int crc, final byte[] buf, final int off) {
     byte b0 = (byte) (crc >> 8);
     if (this.isReservedByte(b0)) {
       b0++;

@@ -58,16 +58,16 @@ public class V1VoltronicMessageDigestTest {
   @Test
   @DisplayName("Writes reserved bytes correctly during spot check")
   public void writeReservedBytesCorrectlySpotTest() {
-    assertArrayEquals(bytes(0x34, 0x16), writeCrcBytes((char) 0x3416));
+    assertArrayEquals(bytes(0x34, 0x16), writeCrcBytes(0x3416));
 
-    assertArrayEquals(bytes(0x0B, 0xBF), writeCrcBytes((char) 0x0ABF));
-    assertArrayEquals(bytes(0x18, 0x0B), writeCrcBytes((char) 0x180A));
+    assertArrayEquals(bytes(0x0B, 0xBF), writeCrcBytes(0x0ABF));
+    assertArrayEquals(bytes(0x18, 0x0B), writeCrcBytes(0x180A));
 
-    assertArrayEquals(bytes(0x0E, 0x54), writeCrcBytes((char) 0x0D54));
-    assertArrayEquals(bytes(0x22, 0x0E), writeCrcBytes((char) 0x220D));
+    assertArrayEquals(bytes(0x0E, 0x54), writeCrcBytes(0x0D54));
+    assertArrayEquals(bytes(0x22, 0x0E), writeCrcBytes(0x220D));
 
-    assertArrayEquals(bytes(0x29, 0x18), writeCrcBytes((char) 0x2818));
-    assertArrayEquals(bytes(0x34, 0x29), writeCrcBytes((char) 0x3428));
+    assertArrayEquals(bytes(0x29, 0x18), writeCrcBytes(0x2818));
+    assertArrayEquals(bytes(0x34, 0x29), writeCrcBytes(0x3428));
   }
 
   @Test
@@ -80,12 +80,11 @@ public class V1VoltronicMessageDigestTest {
     byteBuffer.order(V1_BYTE_ORDER).position(0);
 
     for (int crc = 0; crc <= Character.MAX_VALUE; ++crc) {
-      final char crcChar = (char) (crc & 0xFFFF);
       Arrays.fill(buffer, (byte) 0);
       Arrays.fill(bytes, (byte) 0);
 
-      byteBuffer.order(V1_BYTE_ORDER).putChar(crcChar).order(V1_BYTE_ORDER).position(0);
-      new V1VoltronicMessageDigest().writeCrcBytes(crcChar, bytes, 0);
+      byteBuffer.order(V1_BYTE_ORDER).putChar((char) (crc & 0xFFFF)).order(V1_BYTE_ORDER).position(0);
+      new V1VoltronicMessageDigest().writeCrcBytes(crc, bytes, 0);
 
       for (int bufferIndex = 0; bufferIndex < buffer.length; ++bufferIndex) {
         if (RESERVED_BYTES.contains(buffer[bufferIndex])) {
@@ -128,7 +127,7 @@ public class V1VoltronicMessageDigestTest {
     assertArrayEquals(bytes(0xBE, 0xAC), md.digest());
   }
 
-  private byte[] writeCrcBytes(final char crc) {
+  private byte[] writeCrcBytes(final int crc) {
     final byte[] bytes = new byte[2];
     Arrays.fill(bytes, (byte) 0);
     new V1VoltronicMessageDigest().writeCrcBytes(crc, bytes, 0);
