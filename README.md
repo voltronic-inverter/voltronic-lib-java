@@ -9,31 +9,14 @@ That means if you want to use this library you can, provided your source code is
 **I will not take lightly any use of this implementation in ANY closed source software**
 
 ##Hardware interface
-This is a library providing an implementation for the underlying Voltronic protocol.  It does not implement any hardware interfacing.  Interfacing with Voltronic hardware requires a SerialPort, USB, etc. library, many exist already.  Instead this library implements the protocol on top of an existing hardware interfacing library.
+This is a library providing an implementation for the underlying Voltronic protocol.  It does not implement any hardware interfacing.  Hardware interfacing is already provided by many libraries.
 
-Device wrapping [RXTX](http://rxtx.qbang.org/wiki/index.php/Two_way_communcation_with_the_serial_port)
-```java
-import com.voltronicpower.Device;
+SerialPort:
+ - RXTX
+ - jSSC
+ - jSerialComm
 
-public Device wrap(final gnu.io.SerialPort serialPort configuredSerialPort) {
-  final InputStream in = serialPort.getInputStream();
-  final OutputStream out = serialPort.getOutputStream();
-
-  return new Device() {
-    public int read(byte[] b, int off, int len) throws IOException {
-      return int.read(b, off, len);
-    }
-
-    public void write(byte[] b, int off, int len) throws IOException {
-      return out.write(b, off, len);
-    }
-
-    public void close() throws IOException {
-      configuredSerialPort.close();
-    }
-  };
-}
-```
+See the [jSSC integration test](https://github.com/jvandervyver/VoltronicLibJava/blob/master/src/test/java/com/voltronicpower/integration/test/JSSCDevice.java) for an example device.
 
 ## Usage
 
