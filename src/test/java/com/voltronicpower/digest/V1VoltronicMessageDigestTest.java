@@ -87,7 +87,7 @@ public class V1VoltronicMessageDigestTest {
       byteBuffer.order(V1_BYTE_ORDER).putChar(crcChar).order(V1_BYTE_ORDER).position(0);
       new V1VoltronicMessageDigest().writeCrcBytes(crcChar, bytes, 0);
 
-      for(int bufferIndex = 0; bufferIndex < buffer.length; ++bufferIndex) {
+      for (int bufferIndex = 0; bufferIndex < buffer.length; ++bufferIndex) {
         if (RESERVED_BYTES.contains(buffer[bufferIndex])) {
           buffer[bufferIndex]++;
         }

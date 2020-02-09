@@ -12,11 +12,20 @@ public class V1VoltronicMessageDigest extends MessageDigest {
       (char) 0xC18C, (char) 0xD1AD, (char) 0xE1CE, (char) 0xF1EF
   };
 
+  private static final int DIGEST_LENGTH = 2;
   private char crc;
 
   public V1VoltronicMessageDigest() {
     super("Voltronic Modified CRC-16 XMODEM");
     this.engineReset();
+  }
+
+  protected void engineReset() {
+    this.crc = 0;
+  }
+
+  protected int engineGetDigestLength() {
+    return DIGEST_LENGTH;
   }
 
   protected void engineUpdate(final byte b) {
@@ -34,7 +43,7 @@ public class V1VoltronicMessageDigest extends MessageDigest {
   }
 
   protected byte[] engineDigest() {
-    final byte[] bytes = new byte[this.engineGetDigestLength()];
+    final byte[] bytes = new byte[DIGEST_LENGTH];
     this.writeCrcBytes(this.crc, bytes, 0);
     return bytes;
   }
@@ -48,19 +57,12 @@ public class V1VoltronicMessageDigest extends MessageDigest {
     if (len < digestLength) {
       throw new DigestException("partial digests not returned");
     } else if (buf.length - off < digestLength) {
-      throw new DigestException("insufficient space in the output buffer to store the digest");
+      throw new DigestException(
+          "insufficient space in the output buffer to store the digest");
     } else {
       this.writeCrcBytes(this.crc, buf, off);
-      return digestLength;
+      return DIGEST_LENGTH;
     }
-  }
-
-  protected void engineReset() {
-    this.crc = 0;
-  }
-
-  protected int engineGetDigestLength() {
-    return 2;
   }
 
   protected boolean isReservedByte(final byte b) {
