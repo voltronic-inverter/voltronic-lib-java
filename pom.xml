@@ -13,6 +13,13 @@
   <description>Voltronic specific implementations</description>
   <url>https://github.com/voltronic-inverter/voltronic-lib-java</url>
 
+  <repositories>
+    <repository>
+      <id>github-voltronic-inverter</id>
+      <url>https://github.com/voltronic-inverter/mvn/raw/master/</url>
+    </repository>
+  </repositories>
+
   <issueManagement>
     <url>https://github.com/voltronic-inverter/voltronic-lib-java/issues</url>
     <system>GitHub Issues</system>
@@ -45,6 +52,12 @@
   </properties>
 
   <dependencies>
+    <dependency>
+      <groupId>com.github.voltronic-inverter</groupId>
+      <artifactId>voltronic-lib-java-interfaces</artifactId>
+      <version>[1.0.0, 2.0.0)</version>
+    </dependency>
+
     <!-- Test dependencies -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
@@ -68,6 +81,7 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.1</version>
         <configuration>
+          <debug>true</debug>
           <source>1.5</source>
         </configuration>
       </plugin>
