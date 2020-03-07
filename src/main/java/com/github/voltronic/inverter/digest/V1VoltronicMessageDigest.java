@@ -1,4 +1,4 @@
-package com.voltronicpower.digest;
+package com.github.voltronic.inverter.digest;
 
 import java.security.DigestException;
 import java.security.MessageDigest;

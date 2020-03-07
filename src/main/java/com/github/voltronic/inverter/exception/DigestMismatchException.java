@@ -1,4 +1,4 @@
-package com.voltronicpower.exception;
+package com.github.voltronic.inverter.exception;
 
 import java.io.IOException;
 

@@ -20,13 +20,13 @@ SerialPort:
 
 Writing a command to the device
 ```java
-import com.voltronicpower.Device;
-import com.voltronicpower.Protocol;
-import com.voltronicpower.protocol.P30Protocol;
-import com.voltronicpower.exception.BufferOverflowException;
-import com.voltronicpower.exception.DigestMismatchException;
-import com.voltronicpower.exception.TimeoutException;
-import com.voltronicpower.exception.TruncatedDataException;
+import com.github.voltronic.inverter.Device;
+import com.github.voltronic.inverter.Protocol;
+import com.github.voltronic.inverter.protocol.P30Protocol;
+import com.github.voltronic.inverter.exception.BufferOverflowException;
+import com.github.voltronic.inverter.exception.DigestMismatchException;
+import com.github.voltronic.inverter.exception.TimeoutException;
+import com.github.voltronic.inverter.exception.TruncatedDataException;
 import java.util.concurrent.TimeUnit;
 
 public class ExampleClass {

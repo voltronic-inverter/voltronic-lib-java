@@ -1,4 +1,4 @@
-package com.voltronicpower;
+package com.github.voltronic.inverter;
 
 import java.security.MessageDigest;
 

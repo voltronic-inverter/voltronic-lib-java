@@ -1,4 +1,4 @@
-package com.voltronicpower.digest;
+package com.github.voltronic.inverter.digest;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static com.voltronicpower.ByteUtil.*;
+import static com.github.voltronic.inverter.ByteUtil.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class V1VoltronicMessageDigestTest {

@@ -1,13 +1,13 @@
-package com.voltronicpower.protocol;
+package com.github.voltronic.inverter.protocol;
 
-import com.voltronicpower.IOTestDevice;
-import com.voltronicpower.MessageDigestSupplier;
-import com.voltronicpower.Protocol;
-import com.voltronicpower.TestMessageDigest;
-import com.voltronicpower.exception.BufferOverflowException;
-import com.voltronicpower.exception.DigestMismatchException;
-import com.voltronicpower.exception.TimeoutException;
-import com.voltronicpower.exception.TruncatedDataException;
+import com.github.voltronic.inverter.IOTestDevice;
+import com.github.voltronic.inverter.MessageDigestSupplier;
+import com.github.voltronic.inverter.Protocol;
+import com.github.voltronic.inverter.TestMessageDigest;
+import com.github.voltronic.inverter.exception.BufferOverflowException;
+import com.github.voltronic.inverter.exception.DigestMismatchException;
+import com.github.voltronic.inverter.exception.TimeoutException;
+import com.github.voltronic.inverter.exception.TruncatedDataException;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
@@ -17,7 +17,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
-import static com.voltronicpower.ByteUtil.*;
+import static com.github.voltronic.inverter.ByteUtil.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class P30ProtocolTest {

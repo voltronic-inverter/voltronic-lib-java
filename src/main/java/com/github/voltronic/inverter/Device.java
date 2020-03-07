@@ -1,4 +1,4 @@
-package com.voltronicpower;
+package com.github.voltronic.inverter;
 
 import java.io.Closeable;
 import java.io.IOException;

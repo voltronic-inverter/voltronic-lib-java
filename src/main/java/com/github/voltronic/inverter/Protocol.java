@@ -1,5 +1,9 @@
-package com.voltronicpower;
+package com.github.voltronic.inverter;
 
+import com.github.voltronic.inverter.exception.BufferOverflowException;
+import com.github.voltronic.inverter.exception.DigestMismatchException;
+import com.github.voltronic.inverter.exception.TimeoutException;
+import com.github.voltronic.inverter.exception.TruncatedDataException;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -15,10 +19,10 @@ public interface Protocol {
    * @return data read from the device
    * @exception NullPointerException if <code>device</code> or <code>timeoutTimeUnit</code> is null
    * @exception IllegalArgumentException if <code>timeout</code> < 0
-   * @exception com.voltronicpower.exception.BufferOverflowException the device responded with more data than the buffer can hold
-   * @exception com.voltronicpower.exception.DigestMismatchException the calculated digest for the data does not match the device response digest
-   * @exception com.voltronicpower.exception.TimeoutException the <code>timeout</code> was reached before end of response was reached
-   * @exception com.voltronicpower.exception.TruncatedDataException the response form the device was truncated/did not contain enough bytes
+   * @exception BufferOverflowException the device responded with more data than the buffer can hold
+   * @exception DigestMismatchException the calculated digest for the data does not match the device response digest
+   * @exception TimeoutException the <code>timeout</code> was reached before end of response was reached
+   * @exception TruncatedDataException the response form the device was truncated/did not contain enough bytes
    * @exception java.io.InterruptedIOException if the thread was interrupted before all data could be read
    * @throws IOException if the underlying <code>device</code> threw an IOException
    */

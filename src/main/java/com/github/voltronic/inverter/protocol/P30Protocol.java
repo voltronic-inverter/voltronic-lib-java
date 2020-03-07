@@ -1,13 +1,13 @@
-package com.voltronicpower.protocol;
+package com.github.voltronic.inverter.protocol;
 
-import com.voltronicpower.Device;
-import com.voltronicpower.MessageDigestSupplier;
-import com.voltronicpower.Protocol;
-import com.voltronicpower.digest.V1VoltronicMessageDigest;
-import com.voltronicpower.exception.BufferOverflowException;
-import com.voltronicpower.exception.DigestMismatchException;
-import com.voltronicpower.exception.TimeoutException;
-import com.voltronicpower.exception.TruncatedDataException;
+import com.github.voltronic.inverter.Device;
+import com.github.voltronic.inverter.MessageDigestSupplier;
+import com.github.voltronic.inverter.Protocol;
+import com.github.voltronic.inverter.digest.V1VoltronicMessageDigest;
+import com.github.voltronic.inverter.exception.BufferOverflowException;
+import com.github.voltronic.inverter.exception.DigestMismatchException;
+import com.github.voltronic.inverter.exception.TimeoutException;
+import com.github.voltronic.inverter.exception.TruncatedDataException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InterruptedIOException;
