@@ -1,4 +1,4 @@
-## VoltronicLibJava
+## voltronic-lib-java
 Library providing [Voltronic](http://voltronicpower.com) device specific code.
 
 ## License
@@ -15,8 +15,6 @@ SerialPort:
  - RXTX
  - jSSC
  - jSerialComm
-
-See the [jSSC integration test](https://github.com/jvandervyver/VoltronicLibJava/blob/master/src/test/java/com/voltronicpower/integration/test/JSSCDevice.java) for an example device.
 
 ## Usage
 
