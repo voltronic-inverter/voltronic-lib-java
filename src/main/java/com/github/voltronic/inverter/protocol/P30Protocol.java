@@ -143,6 +143,20 @@ public class P30Protocol implements Protocol {
     device.write(bytes, 0, bytes.length);
   }
 
+  public void clear(Device device) throws IOException {
+    device.write(new byte[]{END_OF_INPUT_BYTE}, 0, 1);
+
+    while (findEndAndDiscardBytes(device, 100)) {
+    }
+
+    device.write(new byte[]{END_OF_INPUT_BYTE}, 0, 1);
+
+    while (findEndAndDiscardBytes(device, 100)) {
+    }
+
+    findEndAndDiscardBytes(device, 1000);
+  }
+
   public void setMaximumBufferSize(final int maximumBufferSize) {
     if (maximumBufferSize <= 0) {
       throw new IllegalArgumentException("maximumBufferSize <= 0");
@@ -197,6 +211,28 @@ public class P30Protocol implements Protocol {
         throw e2;
       }
     }
+  }
+
+  private boolean findEndAndDiscardBytes(final Device device, long timeoutMilliseconds) {
+    final byte[] bytes = new byte[READ_SIZE];
+    final long endTime = System.nanoTime() + TimeUnit.MILLISECONDS.toNanos(timeoutMilliseconds);
+
+    while (endTime > System.nanoTime()) {
+      int bytesRead;
+      try {
+        bytesRead = device.read(bytes, 0, READ_SIZE);
+      } catch (IOException e) {
+        bytesRead = 0;
+      }
+
+      for (int index = 0; index < bytesRead; ++index) {
+        if (bytes[index] == END_OF_INPUT_BYTE) {
+          return true;
+        }
+      }
+    }
+
+    return false;
   }
 
   static {
