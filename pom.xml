@@ -81,8 +81,14 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.1</version>
         <configuration>
-          <debug>true</debug>
           <source>1.5</source>
+          <failOnError>true</failOnError>
+          <failOnWarning>true</failOnWarning>
+          <debug>true</debug>
+          <debuglevel>lines,vars,source</debuglevel>
+          <compilerArgs>
+            <arg>-parameters</arg>
+          </compilerArgs>
         </configuration>
       </plugin>
 
